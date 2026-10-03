@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prabhaav</title>
+<meta name="description" content="Prabhaav matches Indian brands with creators who fit — shortlist, briefing, content approval and payouts handled in one place.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Tiro+Devanagari+Hindi&display=swap">
+<style>
+/* Layout: ripple hero on the right, content on a 1120px column; sections alternate open paper and one inked band for brands */
+:root{
+  --paper:#F3F5F8; --surface:#FFFFFF; --ink:#131838; --ink-2:#4B5272; --line:#DCE0EA;
+  --accent:#EE9B2E; --accent-ink:#9C5600; --band:#131838; --band-fg:#EEF0F8; --band-2:#A8AECB; --band-line:#2B3157;
+  --ok:#1F7A4D; --err:#B3261E;
+  --f-display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --f-body:"Figtree", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  --f-deva:"Tiro Devanagari Hindi", "Noto Serif Devanagari", serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0D1022; --surface:#151931; --ink:#EDEFF7; --ink-2:#A3A9C4; --line:#272C49;
+  --accent:#F2A946; --accent-ink:#F6BE70; --band:#181D3A; --band-fg:#EDEFF7; --band-2:#A3A9C4; --band-line:#2E3459;
+  --ok:#5CC48E; --err:#FF8A80; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --paper:#0D1022; --surface:#151931; --ink:#EDEFF7; --ink-2:#A3A9C4; --line:#272C49;
+  --accent:#F2A946; --accent-ink:#F6BE70; --band:#181D3A; --band-fg:#EDEFF7; --band-2:#A3A9C4; --band-line:#2E3459;
+  --ok:#5CC48E; --err:#FF8A80; color-scheme:dark;}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.4rem,6vw,4.4rem)}
+h2{font-size:clamp(1.9rem,4vw,2.9rem)}
+h3{font-size:1.25rem;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.eyebrow{font:500 .78rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.lede{color:var(--ink-2);font-size:1.12rem;max-width:58ch}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 1.3rem/1 var(--f-display);letter-spacing:-.02em}
+.brand svg{width:30px;height:30px;flex:none}
+.nav-links{display:flex;align-items:center;gap:26px;font-weight:500;font-size:.95rem}
+.nav-links a{text-decoration:none;color:var(--ink-2)}
+.nav-links a:hover{color:var(--ink)}
+@media (max-width:820px){.nav-links a:not(.btn){display:none}}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font:600 .98rem/1 var(--f-body);text-decoration:none;border:1.5px solid transparent;cursor:pointer;transition:transform .15s ease,background .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--ink);color:var(--paper)}
+.nav-links .btn-primary{color:var(--paper)}
+.btn-ghost{border-color:var(--line);color:var(--ink);background:transparent}
+.btn-accent{background:var(--accent);color:#1A1405}
+
+/* hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero .wrap{position:relative;padding-block:88px 96px;display:grid;gap:28px}
+.hero h1{max-width:13ch}
+.hero h1 em{font-style:normal;color:var(--accent-ink)}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
+.meaning{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:18px;padding-top:22px;border-top:1px solid var(--line);max-width:520px;color:var(--ink-2);font-size:.95rem}
+.meaning .deva{font:400 2rem/1 var(--f-deva);color:var(--ink)}
+.meaning i{font-style:italic}
+@media (max-width:640px){.hero .wrap{padding-block:56px 64px}}
+
+section{padding-block:96px}
+@media (max-width:640px){section{padding-block:64px}}
+.sec-head{display:grid;gap:14px;margin-bottom:48px;max-width:720px}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-top:1.5px solid var(--ink)}
+.steps li{padding:22px 20px 0 0;display:grid;gap:10px;align-content:start;min-width:0}
+.steps .n{font:500 .85rem/1 var(--f-mono);color:var(--accent-ink)}
+.steps p{color:var(--ink-2);font-size:.97rem}
+@media (max-width:900px){.steps{grid-template-columns:1fr;border-top:0}.steps li{grid-template-columns:44px 1fr;column-gap:12px;padding:20px 0;border-top:1px solid var(--line)}.steps li>*:not(.n){grid-column:2}.steps .n{grid-row:span 2;padding-top:5px}}
+
+/* brands band */
+.band{background:var(--band);color:var(--band-fg)}
+.band .eyebrow{color:var(--accent)}
+.band .lede{color:var(--band-2)}
+.models{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:760px){.models{grid-template-columns:1fr}}
+.model{border:1px solid var(--band-line);border-radius:var(--r);padding:30px;display:grid;gap:18px;align-content:start;min-width:0}
+.model .tag{font:500 .78rem/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--band-2)}
+.model h3{font-size:1.6rem}
+.model p{color:var(--band-2)}
+.facts{list-style:none;margin:0;padding:0;display:grid;border-top:1px solid var(--band-line)}
+.facts li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--band-line);font-size:.95rem}
+.facts li span:first-child{color:var(--band-2)}
+.facts li span:last-child{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
+.fine{margin-top:22px;color:var(--band-2);font-size:.88rem}
+
+.why{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px;margin-top:72px;padding-top:40px;border-top:1px solid var(--band-line)}
+.why div{display:grid;gap:8px;align-content:start;min-width:0}
+.why p{color:var(--band-2);font-size:.95rem}
+@media (max-width:900px){.why{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.why{grid-template-columns:1fr}}
+
+/* creators */
+.creators{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:start}
+@media (max-width:860px){.creators{grid-template-columns:1fr;gap:36px}}
+.free{display:inline-flex;align-items:center;gap:10px;font:600 .95rem/1 var(--f-body);padding:10px 14px;border-radius:999px;background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent-ink);width:max-content;max-width:100%}
+.payout{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px;display:grid;gap:20px;min-width:0}
+.payout-bar{display:grid;grid-template-columns:30fr 70fr;gap:4px;height:14px}
+.payout-bar span{border-radius:4px}
+.payout-bar span:first-child{background:var(--accent)}
+.payout-bar span:last-child{background:var(--ink)}
+.payout-rows{display:grid;gap:16px}
+.payout-row{display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:baseline}
+.payout-row b{font:500 1.5rem/1 var(--f-mono);font-variant-numeric:tabular-nums}
+.payout-row p{color:var(--ink-2);font-size:.95rem}
+.creator-list{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:14px}
+.creator-list li{display:grid;grid-template-columns:22px 1fr;gap:12px;color:var(--ink-2)}
+.creator-list li strong{color:var(--ink);font-weight:600}
+.creator-list svg{margin-top:4px}
+
+/* proof strip */
+.proof{border-bottom:1px solid var(--line);background:var(--surface)}
+.proof .wrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding-block:26px}
+.proof-item{display:flex;align-items:baseline;gap:12px;min-width:0}
+.proof-item b{font:700 1.6rem/1 var(--f-display);letter-spacing:-.02em;color:var(--ink);white-space:nowrap}
+.proof-item b.mono{font-family:var(--f-mono);font-weight:500}
+.proof-item span{color:var(--ink-2);font-size:.95rem}
+@media (max-width:760px){.proof .wrap{grid-template-columns:1fr;gap:14px}}
+
+/* small business block */
+.small-biz{margin-top:56px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;padding:32px;border:1px solid var(--band-line);border-radius:var(--r)}
+.small-biz>div{display:grid;gap:12px;min-width:0}
+.small-biz h3{font-size:1.5rem}
+.small-biz p{color:var(--band-2)}
+.chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.chips li{padding:8px 14px;border-radius:999px;border:1px solid var(--band-line);font-size:.92rem;color:var(--band-fg)}
+@media (max-width:860px){.small-biz{grid-template-columns:1fr;gap:24px;padding:24px}}
+
+/* about */
+.about{border-top:1px solid var(--line);background:var(--surface)}
+.about-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:start}
+@media (max-width:860px){.about-grid{grid-template-columns:1fr;gap:24px}}
+.about-copy{display:grid;gap:16px;color:var(--ink-2);font-size:1.08rem;max-width:60ch;min-width:0}
+.adv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px;margin-top:64px;padding-top:36px;border-top:1.5px solid var(--ink)}
+.adv div{display:grid;gap:8px;align-content:start;min-width:0}
+.adv-k{font:700 1.15rem/1.2 var(--f-display);letter-spacing:-.01em}
+.adv p{color:var(--ink-2);font-size:.95rem}
+@media (max-width:900px){.adv{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.adv{grid-template-columns:1fr}}
+
+/* join form */
+.join{border-top:1px solid var(--line)}
+.join-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:start}
+@media (max-width:860px){.join-grid{grid-template-columns:1fr;gap:32px}}
+.contact-line{margin-top:24px;display:grid;gap:6px;color:var(--ink-2);font-size:.95rem}
+.contact-line .mono{color:var(--ink)}
+.form-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px;min-width:0}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:999px;background:var(--paper);border:1px solid var(--line);margin-bottom:24px}
+.tabs button{border:0;background:transparent;color:var(--ink-2);font:600 .95rem/1 var(--f-body);padding:11px;border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+form{display:grid;gap:16px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:520px){.row2{grid-template-columns:1fr}}
+label{display:grid;gap:6px;font-size:.88rem;font-weight:600;min-width:0}
+label small{font-weight:400;color:var(--ink-2)}
+input,select{font:400 1rem/1.3 var(--f-body);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px;width:100%;min-width:0}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+.form-note{font-size:.85rem;color:var(--ink-2)}
+.status{font-size:.92rem;font-weight:500;min-height:1.4em}
+.status.ok{color:var(--ok)} .status.err{color:var(--err)}
+form .btn{justify-content:center;padding:15px 20px}
+
+footer{border-top:1px solid var(--line);padding-block:36px;color:var(--ink-2);font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Prabhaav home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="4.2" fill="var(--accent)"/><circle cx="16" cy="16" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 2.5a13.5 13.5 0 0 1 13.5 13.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".45"/><path d="M2.5 16A13.5 13.5 0 0 1 16 2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".2"/></svg>
+      Prabhaav
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#brands">For brands</a>
+      <a href="#creators">For creators</a>
+      <a href="#about">About us</a>
+      <a class="btn btn-primary" href="#join" data-tab="brand">Get early access</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" style="padding-block:0">
+    <canvas id="ripple" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <span class="eyebrow">Influence, made to fit.</span>
+      <h1>Creators who fit your brand, <em>not just your budget.</em></h1>
+      <p class="lede">New label, local business or established brand, Prabhaav matches you with the right micro and mid-tier creators, then runs the campaign for you: briefs, content approval and creator payouts, all through one team and one invoice.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#join" data-tab="brand">Get early access</a>
+        <a class="btn btn-ghost" href="#creators">I'm a creator →</a>
+      </div>
+      <div class="meaning">
+        <span class="deva" lang="hi">प्रभाव</span>
+        <span><i>prabhaav</i> (n.) influence; the effect one thing has on another.</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="proof">
+    <div class="wrap">
+      <div class="proof-item"><b class="mono">100+</b><span>creators in our network</span></div>
+      <div class="proof-item"><b>Live</b><span>already running campaigns for brands across India</span></div>
+      <div class="proof-item"><b>Any size</b><span>from first-time founders to established labels</span></div>
+    </div>
+  </div>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">How it works</span>
+        <h2>From brief to live content in five steps</h2>
+        <p class="lede">You tell us what you need. We find the creators, brief them, check the work and handle the payments.</p>
+      </div>
+      <ol class="steps">
+        <li><span class="n">01</span><h3>Share your brief</h3><p>Budget, platform, timeline and what you want people to feel or do.</p></li>
+        <li><span class="n">02</span><h3>See your shortlist</h3><p>3–5 creators picked for fit, with niche, city, followers and real engagement for each.</p></li>
+        <li><span class="n">03</span><h3>Confirm and brief</h3><p>Pick your creators. We brief them on your goals and agree timelines.</p></li>
+        <li><span class="n">04</span><h3>Approve the content</h3><p>Review scripts and drafts before anything goes out.</p></li>
+        <li><span class="n">05</span><h3>Go live</h3><p>Content goes out on the creators' channels and we share how it performed.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="brands" class="band">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">For brands</span>
+        <h2>Campaigns or single collabs, built around your goal</h2>
+        <p class="lede">Run a full campaign across several creators, or book one creator for a launch. Either way you get one point of contact and one invoice. We'll share pricing once we understand what you need.</p>
+        <div class="hero-ctas" style="margin-top:8px"><a class="btn btn-accent" href="#join" data-tab="brand">Request early access</a></div>
+      </div>
+
+      <div class="small-biz">
+        <div>
+          <h3>New brand or local business? You're welcome here.</h3>
+          <p>You don't need a big budget or a famous name to work with creators. Whether you're launching your first product or running a neighbourhood store, we'll find creators whose audience matches your customers, at a budget that makes sense for you.</p>
+        </div>
+        <ul class="chips" aria-label="Who we work with">
+          <li>New D2C labels</li><li>Cafés &amp; restaurants</li><li>Salons &amp; studios</li><li>Gyms &amp; fitness</li><li>Local retail stores</li><li>Growing national brands</li>
+        </ul>
+      </div>
+
+      <div class="why">
+        <div><h3>Fit over reach</h3><p>We match on niche, audience and engagement, and treat your budget as a ceiling, not a target.</p></div>
+        <div><h3>Checked numbers</h3><p>Every shortlisted creator comes with follower and engagement figures we've reviewed.</p></div>
+        <div><h3>You approve first</h3><p>Nothing is published until you've signed off on the content.</p></div>
+        <div><h3>One team</h3><p>No chasing ten creators on DMs. We handle briefs, timelines and payouts.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="creators">
+    <div class="wrap creators">
+      <div>
+        <div class="sec-head" style="margin-bottom:20px">
+          <span class="eyebrow">For creators</span>
+          <h2>Paid brand work that suits your content</h2>
+          <p class="lede">We bring you campaigns from brands that match your niche and your audience. You decide what to take on.</p>
+        </div>
+        <span class="free">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Free to join. We never charge creators.
+        </span>
+        <ul class="creator-list">
+          <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="var(--accent)"/></svg><span><strong>See the brief before you commit.</strong> Every offer tells you what the brand needs and what you'll be paid.</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="var(--accent)"/></svg><span><strong>Clear briefs, fewer back-and-forths.</strong> We collect what the brand wants up front so you can just create.</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="var(--accent)"/></svg><span><strong>Payouts handled by us.</strong> No chasing brands for money. We take care of it.</span></li>
+        </ul>
+      </div>
+      <aside class="payout" aria-label="What happens after you join">
+        <span class="eyebrow">What happens next</span>
+        <div class="payout-rows">
+          <div class="payout-row"><b>1</b><p>Join the waitlist with your name, contact and handle.</p></div>
+          <div class="payout-row"><b>2</b><p>Our team gets in touch to learn about your content, audience and rates.</p></div>
+          <div class="payout-row"><b>3</b><p>You start receiving brand offers that match your niche.</p></div>
+        </div>
+        <a class="btn btn-accent" href="#join" data-tab="creator" style="justify-self:start">Join the waitlist</a>
+      </aside>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="sec-head" style="margin-bottom:0">
+          <span class="eyebrow">About us</span>
+          <h2>An influencer marketing agency built to cost less and fit better</h2>
+        </div>
+        <div class="about-copy">
+          <p>Prabhaav is an influencer and creator marketing agency based in Pune. We work with a network of 100+ creators and connect brands of every size, from local businesses to national labels, with creators whose audiences actually match what the brand sells.</p>
+          <p>Most agencies charge monthly retainers and carry large teams, and brands pay for that overhead. We built our own matching and outreach system so a small team can do the work of a big one. That keeps our costs low, and we pass the savings on to you.</p>
+        </div>
+      </div>
+      <div class="adv">
+        <div><span class="adv-k">No retainers</span><p>You pay per campaign or collab. No monthly fees, no lock-in.</p></div>
+        <div><span class="adv-k">Lower cost per result</span><p>Smaller creators with engaged audiences often deliver more for every rupee than one big name.</p></div>
+        <div><span class="adv-k">Faster shortlists</span><p>Our matching system reviews creators for you, so you see a shortlist in days, not weeks.</p></div>
+        <div><span class="adv-k">Less work for your team</span><p>We handle discovery, briefs, follow-ups and payouts. You only approve.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="join" class="join">
+    <div class="wrap join-grid">
+      <div class="sec-head" style="margin-bottom:0">
+        <span class="eyebrow">Get started</span>
+        <h2>We're onboarding our first brands and creators</h2>
+        <p class="lede">Sign up below. Our team will reach out to learn what you need and walk you through how we work, including pricing.</p>
+        <div class="contact-line">
+          <span>Prefer email?</span>
+          <span class="mono">hello@prabhaav.co</span>
+          <span>Based in Pune, working with brands and creators across India.</span>
+        </div>
+      </div>
+      <div class="form-card">
+        <div class="tabs" role="tablist" aria-label="I am a">
+          <button type="button" role="tab" id="tab-brand" aria-selected="true" aria-controls="form-brand">I'm a brand</button>
+          <button type="button" role="tab" id="tab-creator" aria-selected="false" aria-controls="form-creator">I'm a creator</button>
+        </div>
+
+        <form id="form-brand" data-type="brand" role="tabpanel" aria-labelledby="tab-brand" novalidate>
+          <div class="row2">
+            <label for="b-name">Your name<input id="b-name" name="name" autocomplete="name" required></label>
+            <label for="b-brand">Brand name<input id="b-brand" name="brand_name" autocomplete="organization" required></label>
+          </div>
+          <div class="row2">
+            <label for="b-email">Work email<input id="b-email" name="email" type="email" autocomplete="email" required></label>
+            <label for="b-phone">Phone / WhatsApp<input id="b-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91" required></label>
+          </div>
+          <label for="b-site">Website or Instagram <small>(optional)</small><input id="b-site" name="website" placeholder="yourbrand.com"></label>
+          <p class="status" role="status" aria-live="polite"></p>
+          <button class="btn btn-primary" type="submit">Request early access</button>
+        </form>
+
+        <form id="form-creator" data-type="creator" role="tabpanel" aria-labelledby="tab-creator" novalidate hidden>
+          <div class="row2">
+            <label for="c-name">Your name<input id="c-name" name="name" autocomplete="name" required></label>
+            <label for="c-platform">Main platform
+              <select id="c-platform" name="platform">
+                <option>Instagram</option><option>YouTube</option><option>Both</option><option>Other</option>
+              </select>
+            </label>
+          </div>
+          <div class="row2">
+            <label for="c-email">Email<input id="c-email" name="email" type="email" autocomplete="email" required></label>
+            <label for="c-phone">Phone / WhatsApp<input id="c-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91" required></label>
+          </div>
+          <label for="c-handle">Handle <small>(optional)</small><input id="c-handle" name="handle" placeholder="@yourhandle"></label>
+          <p class="status" role="status" aria-live="polite"></p>
+          <button class="btn btn-primary" type="submit">Join the waitlist</button>
+        </form>
+        <p class="form-note" style="margin-top:14px">We only use your details to contact you about Prabhaav.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top" style="font-size:1.05rem">Prabhaav</a>
+    <span>Influence, made to fit. · © 2026 Prabhaav · Pune, India</span>
+    <span class="mono">prabhaav.co</span>
+  </div>
+</footer>
+
+<script>
+/* ---- Paste your n8n webhook URL here ---- */
+const WEBHOOK_URL = "https://YOUR-N8N-DOMAIN/webhook/prabhaav-leads";
+
+/* Tabs */
+const tabs = { brand: document.getElementById('tab-brand'), creator: document.getElementById('tab-creator') };
+const forms = { brand: document.getElementById('form-brand'), creator: document.getElementById('form-creator') };
+function showTab(t){
+  for (const k of Object.keys(tabs)){
+    const on = k === t;
+    tabs[k].setAttribute('aria-selected', on);
+    forms[k].hidden = !on;
+  }
+}
+tabs.brand.addEventListener('click', () => showTab('brand'));
+tabs.creator.addEventListener('click', () => showTab('creator'));
+document.querySelectorAll('a[data-tab]').forEach(a => a.addEventListener('click', () => showTab(a.dataset.tab)));
+
+/* Forms → n8n webhook */
+Object.values(forms).forEach(form => {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const status = form.querySelector('.status');
+    const btn = form.querySelector('button[type=submit]');
+    status.className = 'status';
+    const missing = [...form.querySelectorAll('[required]')].find(i => !i.value.trim());
+    if (missing){ status.textContent = 'Please fill in ' + missing.closest('label').childNodes[0].textContent.trim().toLowerCase() + '.'; status.classList.add('err'); missing.focus(); return; }
+    const email = form.querySelector('input[type=email]');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){ status.textContent = 'Please check your email address.'; status.classList.add('err'); email.focus(); return; }
+
+    const data = Object.fromEntries(new FormData(form));
+    data.type = form.dataset.type;
+    data.submitted_at = new Date().toISOString();
+    data.source = location.hostname || 'website';
+
+    if (WEBHOOK_URL.includes('YOUR-N8N')){
+      status.textContent = 'Preview only: the form isn’t connected yet.';
+      status.classList.add('ok');
+      return;
+    }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try{
+      const res = await fetch(WEBHOOK_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+      if (!res.ok) throw new Error(res.status);
+      form.reset();
+      status.textContent = 'Thanks, you’re on the list. Our team will be in touch soon.';
+      status.classList.add('ok');
+    }catch(err){
+      status.textContent = 'That didn’t go through. Please try again, or email hello@prabhaav.co.';
+      status.classList.add('err');
+    }finally{
+      btn.disabled = false;
+      btn.textContent = form.dataset.type === 'brand' ? 'Request early access' : 'Join the waitlist';
+    }
+  });
+});
+
+/* Ripple hero */
+(() => {
+  const c = document.getElementById('ripple');
+  const ctx = c.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let w, h, dpr, cx, cy, maxR, colors;
+  function readColors(){
+    const s = getComputedStyle(document.documentElement);
+    colors = { ink: s.getPropertyValue('--ink').trim(), accent: s.getPropertyValue('--accent').trim() };
+  }
+  function size(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = c.clientWidth; h = c.clientHeight;
+    c.width = w * dpr; c.height = h * dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const narrow = w < 760;
+    cx = narrow ? w * 0.92 : w * 0.80;
+    cy = narrow ? h * 0.12 : h * 0.48;
+    maxR = Math.hypot(Math.max(cx, w - cx), Math.max(cy, h - cy));
+  }
+  function draw(t){
+    ctx.clearRect(0,0,w,h);
+    const gap = 46, speed = reduce ? 0 : 0.018;
+    const off = (t * speed) % gap;
+    for (let r = off; r < maxR; r += gap){
+      const fade = 1 - r / maxR;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.strokeStyle = colors.ink;
+      ctx.globalAlpha = Math.max(0, fade) * (w < 760 ? 0.10 : 0.16);
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    ctx.beginPath(); ctx.arc(cx, cy, 9, 0, Math.PI * 2);
+    ctx.fillStyle = colors.accent; ctx.fill();
+  }
+  let raf;
+  function loop(t){ draw(t); raf = requestAnimationFrame(loop); }
+  readColors(); size();
+  if (reduce) draw(0); else raf = requestAnimationFrame(loop);
+  addEventListener('resize', () => { size(); if (reduce) draw(0); });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { readColors(); if (reduce) draw(0); });
+  new MutationObserver(() => { readColors(); if (reduce) draw(0); }).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+})();
+</script>
+</body>
+</html>
