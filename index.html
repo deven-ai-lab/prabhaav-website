@@ -30,6 +30,7 @@
   --ok:#5CC48E; --err:#FF8A80; color-scheme:dark;}
 
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
@@ -127,12 +128,13 @@ section{padding-block:96px}
 
 /* proof strip */
 .proof{border-bottom:1px solid var(--line);background:var(--surface)}
-.proof .wrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding-block:26px}
+.proof .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;padding-block:26px}
 .proof-item{display:flex;align-items:baseline;gap:12px;min-width:0}
 .proof-item b{font:700 1.6rem/1 var(--f-display);letter-spacing:-.02em;color:var(--ink);white-space:nowrap}
 .proof-item b.mono{font-family:var(--f-mono);font-weight:500}
 .proof-item span{color:var(--ink-2);font-size:.95rem}
-@media (max-width:760px){.proof .wrap{grid-template-columns:1fr;gap:14px}}
+@media (max-width:980px){.proof .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.proof .wrap{grid-template-columns:1fr;gap:14px}}
 
 /* small business block */
 .small-biz{margin-top:56px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;padding:32px;border:1px solid var(--band-line);border-radius:var(--r)}
@@ -179,6 +181,51 @@ form .btn{justify-content:center;padding:15px 20px}
 
 footer{border-top:1px solid var(--line);padding-block:36px;color:var(--ink-2);font-size:.9rem}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
+
+/* problem table */
+.problem{border-bottom:1px solid var(--line)}
+.vs{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.vs-col{min-width:0}
+.vs-col h3{font:600 .8rem/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;padding:18px 24px;border-bottom:1px solid var(--line);color:var(--ink-2)}
+.vs-col.with h3{color:var(--accent-ink);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.vs-col.with{border-left:1px solid var(--line)}
+.vs-col ul{list-style:none;margin:0;padding:0}
+.vs-col li{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:16px 24px;border-bottom:1px solid var(--line);font-size:.98rem;align-items:start}
+.vs-col li:last-child{border-bottom:0}
+.vs-col.without li{color:var(--ink-2)}
+.vs-col svg{margin-top:4px}
+@media (max-width:720px){.vs{grid-template-columns:1fr}.vs-col.with{border-left:0;border-top:1px solid var(--line)}}
+/* no lock-in + pricing */
+.terms-row{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:860px){.terms-row{grid-template-columns:1fr}}
+.lockin{border-radius:var(--r);padding:30px;background:var(--accent);color:#1A1405;display:grid;gap:14px;align-content:start;min-width:0}
+.lockin h3{font-size:1.6rem}
+.lockin p{color:#3A2A08}
+.pricing{border:1px solid var(--band-line);border-radius:var(--r);padding:30px;display:grid;gap:14px;align-content:start;min-width:0}
+.pricing ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.pricing li{display:grid;grid-template-columns:18px 1fr;gap:10px;color:var(--band-2)}
+.pricing li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:9px}
+/* fit */
+.fit{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:720px){.fit{grid-template-columns:1fr}}
+.fit-card{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:var(--surface);display:grid;gap:14px;align-content:start;min-width:0}
+.fit-card h3{display:flex;align-items:center;gap:10px}
+.fit-card ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.fit-card li{display:grid;grid-template-columns:22px 1fr;gap:10px;color:var(--ink-2)}
+.fit-card svg{margin-top:4px}
+.fit-yes{color:var(--ok)} .fit-no{color:var(--err)}
+/* faq */
+.faq{border-top:1px solid var(--line)}
+.faq-list{display:grid;border-top:1.5px solid var(--ink);max-width:860px}
+.faq-list details{border-bottom:1px solid var(--line)}
+.faq-list summary{cursor:pointer;list-style:none;padding:20px 40px 20px 0;font:600 1.08rem/1.35 var(--f-body);position:relative}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{content:"+";position:absolute;right:4px;top:16px;font:400 1.6rem/1 var(--f-body);color:var(--accent-ink)}
+.faq-list details[open] summary::after{content:"\2013"}
+.faq-list details p{padding:0 0 20px;color:var(--ink-2);max-width:68ch}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap}
+.foot-links a{text-decoration:none}
+.foot-links a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -194,7 +241,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
       <a href="#brands">For brands</a>
       <a href="#creators">For creators</a>
       <a href="#about">About us</a>
-      <a class="btn btn-primary" href="#join" data-tab="brand">Get early access</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn-primary" href="#join" data-tab="brand">Get free shortlist</a>
     </nav>
   </div>
 </header>
@@ -205,11 +253,12 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
     <div class="wrap">
       <span class="eyebrow">Influence, made to fit.</span>
       <h1>Creators who fit your brand, <em>not just your budget.</em></h1>
-      <p class="lede">New label, local business or established brand, Prabhaav matches you with the right micro and mid-tier creators, then runs the campaign for you: briefs, content approval and creator payouts, all through one team and one invoice.</p>
+      <p class="lede"><strong style="color:var(--ink);font-weight:600">Most agencies are built for big brands. We built one for brands of every size.</strong> New label, local business or established brand, Prabhaav matches you with the right micro and mid-tier creators, then runs the campaign for you: briefs, content approval and creator payouts, all through one team and one invoice.</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="#join" data-tab="brand">Get early access</a>
+        <a class="btn btn-primary" href="#join" data-tab="brand">Get your free creator shortlist</a>
         <a class="btn btn-ghost" href="#creators">I'm a creator →</a>
       </div>
+      <p style="font-size:.92rem;color:var(--ink-2);margin-top:-8px">Shortlist within 48 hours of your brief. No retainers, no lock-in.</p>
       <div class="meaning">
         <span class="deva" lang="hi">प्रभाव</span>
         <span><i>prabhaav</i> (n.) influence; the effect one thing has on another.</span>
@@ -222,8 +271,23 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
       <div class="proof-item"><b class="mono">100+</b><span>creators in our network</span></div>
       <div class="proof-item"><b>Live</b><span>already running campaigns for brands across India</span></div>
       <div class="proof-item"><b>Any size</b><span>from first-time founders to established labels</span></div>
+      <div class="proof-item"><b class="mono">48 hrs</b><span>from your brief to your creator shortlist</span></div>
     </div>
   </div>
+
+  <section id="problem" class="problem">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">The problem</span>
+        <h2>Influencer marketing works. Doing it yourself is the hard part.</h2>
+        <p class="lede">Finding the right creators, getting replies, managing content and paying everyone on time eats weeks. Most brands give up or pay for the wrong creators.</p>
+      </div>
+      <div class="vs">
+        <div class="vs-col without"><h3>Doing it alone</h3><ul><li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="var(--err)" stroke-width="2" stroke-linecap="round"/></svg><span>DM 50 creators, hear back from 3.</span></li><li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="var(--err)" stroke-width="2" stroke-linecap="round"/></svg><span>Pick creators by follower count and hope it works.</span></li><li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="var(--err)" stroke-width="2" stroke-linecap="round"/></svg><span>Chase each creator for drafts, dates and invoices.</span></li><li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="var(--err)" stroke-width="2" stroke-linecap="round"/></svg><span>Pay before you know what you'll get.</span></li><li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="var(--err)" stroke-width="2" stroke-linecap="round"/></svg><span>Lock into a monthly retainer.</span></li></ul></div>
+        <div class="vs-col with"><h3>With Prabhaav</h3><ul><li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>We bring you a shortlist of creators who fit and are ready to work.</span></li><li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Creators picked for audience, city and real engagement.</span></li><li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>One point of contact for briefs, approvals and payouts.</span></li><li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Approve scripts and content before anything goes live.</span></li><li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Pay per campaign or collab. Stop whenever you like.</span></li></ul></div>
+      </div>
+    </div>
+  </section>
 
   <section id="how">
     <div class="wrap">
@@ -234,7 +298,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
       </div>
       <ol class="steps">
         <li><span class="n">01</span><h3>Share your brief</h3><p>Budget, platform, timeline and what you want people to feel or do.</p></li>
-        <li><span class="n">02</span><h3>See your shortlist</h3><p>3–5 creators picked for fit, with niche, city, followers and real engagement for each.</p></li>
+        <li><span class="n">02</span><h3>See your shortlist</h3><p>Within 48 hours: 3–5 creators picked for fit, with niche, city, followers and real engagement for each.</p></li>
         <li><span class="n">03</span><h3>Confirm and brief</h3><p>Pick your creators. We brief them on your goals and agree timelines.</p></li>
         <li><span class="n">04</span><h3>Approve the content</h3><p>Review scripts and drafts before anything goes out.</p></li>
         <li><span class="n">05</span><h3>Go live</h3><p>Content goes out on the creators' channels and we share how it performed.</p></li>
@@ -248,7 +312,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
         <span class="eyebrow">For brands</span>
         <h2>Campaigns or single collabs, built around your goal</h2>
         <p class="lede">Run a full campaign across several creators, or book one creator for a launch. Either way you get one point of contact and one invoice. We'll share pricing once we understand what you need.</p>
-        <div class="hero-ctas" style="margin-top:8px"><a class="btn btn-accent" href="#join" data-tab="brand">Request early access</a></div>
+        <div class="hero-ctas" style="margin-top:8px"><a class="btn btn-accent" href="#join" data-tab="brand">Get your creator shortlist</a></div>
       </div>
 
       <div class="small-biz">
@@ -266,6 +330,55 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
         <div><h3>Checked numbers</h3><p>Every shortlisted creator comes with follower and engagement figures we've reviewed.</p></div>
         <div><h3>You approve first</h3><p>Nothing is published until you've signed off on the content.</p></div>
         <div><h3>One team</h3><p>No chasing ten creators on DMs. We handle briefs, timelines and payouts.</p></div>
+      </div>
+
+      <div class="terms-row">
+        <div class="lockin">
+          <span class="eyebrow" style="color:#5A3A00">Our promise</span>
+          <h3>No retainers. No contracts. No minimum months.</h3>
+          <p>You work with us one campaign at a time. You stay because it's working, not because you're locked in.</p>
+        </div>
+        <div class="pricing">
+          <span class="eyebrow">How pricing works</span>
+          <h3>You see the full price before anything starts</h3>
+          <ul>
+            <li><span>Pay per campaign or per collab, based on the creators and content you choose.</span></li>
+            <li><span>Small budgets are welcome. We'll suggest the best fit for what you want to spend.</span></li>
+            <li><span>Every creator's price is shown upfront in your shortlist. No hidden charges.</span></li>
+            <li><span>One proper GST invoice from Prabhaav, not ten from different creators.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fit">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Are we the right fit?</span>
+        <h2>We work best with brands that want real results</h2>
+        <p class="lede">We'd rather tell you upfront than waste your time. Here's who we're built for.</p>
+      </div>
+      <div class="fit">
+        <div class="fit-card">
+          <h3><span class="fit-yes"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>You're a great fit if</h3>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>You have a product, store or service people can buy today.</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>You're a café, salon, gym, local shop, D2C label or growing brand.</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>You want creators whose audience matches your customers.</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>You can share samples or an experience with creators when needed.</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>You want a partner for the long run, not a one-time trick.</span></li>
+          </ul>
+        </div>
+        <div class="fit-card">
+          <h3><span class="fit-no"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="var(--err)" stroke-width="2" stroke-linecap="round"/></svg></span>We're not the right fit if</h3>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="var(--err)" stroke-width="2" stroke-linecap="round"/></svg><span>You don't have a product or service ready yet.</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="var(--err)" stroke-width="2" stroke-linecap="round"/></svg><span>You expect overnight results from a single post.</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="var(--err)" stroke-width="2" stroke-linecap="round"/></svg><span>You want fake followers, bought likes or misleading ads.</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="var(--err)" stroke-width="2" stroke-linecap="round"/></svg><span>You only care about the biggest follower count, not the right audience.</span></li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -315,8 +428,28 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
       <div class="adv">
         <div><span class="adv-k">No retainers</span><p>You pay per campaign or collab. No monthly fees, no lock-in.</p></div>
         <div><span class="adv-k">Lower cost per result</span><p>Smaller creators with engaged audiences often deliver more for every rupee than one big name.</p></div>
-        <div><span class="adv-k">Faster shortlists</span><p>Our matching system reviews creators for you, so you see a shortlist in days, not weeks.</p></div>
+        <div><span class="adv-k">Faster shortlists</span><p>Our matching system reviews creators for you, so you see a shortlist within 48 hours of your brief.</p></div>
         <div><span class="adv-k">Less work for your team</span><p>We handle discovery, briefs, follow-ups and payouts. You only approve.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">FAQ</span>
+        <h2>Questions brands and creators ask us</h2>
+      </div>
+      <div class="faq-list">
+        <details><summary>Do you work with small budgets?</summary><p>Yes. We work with brands of every size, including cafés, salons and new labels. Tell us what you want to spend and we'll suggest creators who fit it.</p></details>
+        <details><summary>Do you charge a monthly retainer?</summary><p>No. You pay per campaign or per collab. There are no contracts and no minimum months.</p></details>
+        <details><summary>How do you choose creators?</summary><p>We look at niche, audience, city and real engagement, not just follower count. Every creator in your shortlist comes with these details so you can judge the fit yourself.</p></details>
+        <details><summary>How quickly will I see creators?</summary><p>Within 48 hours of sharing your brief (budget, platform, timeline and what you want), you'll get a shortlist of 3–5 creators.</p></details>
+        <details><summary>Do I get to approve the content?</summary><p>Always. You review scripts and drafts, and nothing is published until you've signed off.</p></details>
+        <details><summary>Which cities do you work in?</summary><p>We're based in Pune and work with brands and creators across India, including local creators for city-level campaigns.</p></details>
+        <details><summary>Which platforms do you cover?</summary><p>Mainly Instagram and YouTube. If you have another platform in mind, ask us.</p></details>
+        <details><summary>I'm a creator. Do I pay anything to join?</summary><p>Never. Joining is free. Brands pay Prabhaav, and we pay you for every campaign you take on.</p></details>
+        <details><summary>How do I get started?</summary><p>Fill in the short form below. Our team will contact you to understand what you need, then share your shortlist and the full price before anything starts.</p></details>
       </div>
     </div>
   </section>
@@ -326,10 +459,11 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
       <div class="sec-head" style="margin-bottom:0">
         <span class="eyebrow">Get started</span>
         <h2>We're onboarding our first brands and creators</h2>
-        <p class="lede">Sign up below. Our team will reach out to learn what you need and walk you through how we work, including pricing.</p>
+        <p class="lede">Sign up below. Our team will reach out to learn what you need, and you'll get your creator shortlist within 48 hours of sharing your brief.</p>
         <div class="contact-line">
           <span>Prefer email?</span>
           <span class="mono">hello@prabhaav.co</span>
+          <span>or DM us on Instagram: <a class="mono" href="https://www.instagram.com/prabhaav.co/" target="_blank" rel="noopener">@prabhaav.co</a></span>
           <span>Based in Pune, working with brands and creators across India.</span>
         </div>
       </div>
@@ -348,9 +482,9 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
             <label for="b-email">Work email<input id="b-email" name="email" type="email" autocomplete="email" required></label>
             <label for="b-phone">Phone / WhatsApp<input id="b-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91" required></label>
           </div>
-          <label for="b-site">Website or Instagram <small>(optional)</small><input id="b-site" name="website" placeholder="yourbrand.com"></label>
+          <label for="b-site"><span>Website or Instagram <small>(optional)</small></span><input id="b-site" name="website" placeholder="yourbrand.com"></label>
           <p class="status" role="status" aria-live="polite"></p>
-          <button class="btn btn-primary" type="submit">Request early access</button>
+          <button class="btn btn-primary" type="submit">Get my creator shortlist</button>
         </form>
 
         <form id="form-creator" data-type="creator" role="tabpanel" aria-labelledby="tab-creator" novalidate hidden>
@@ -366,11 +500,11 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
             <label for="c-email">Email<input id="c-email" name="email" type="email" autocomplete="email" required></label>
             <label for="c-phone">Phone / WhatsApp<input id="c-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91" required></label>
           </div>
-          <label for="c-handle">Handle <small>(optional)</small><input id="c-handle" name="handle" placeholder="@yourhandle"></label>
+          <label for="c-handle"><span>Handle <small>(optional)</small></span><input id="c-handle" name="handle" placeholder="@yourhandle"></label>
           <p class="status" role="status" aria-live="polite"></p>
           <button class="btn btn-primary" type="submit">Join the waitlist</button>
         </form>
-        <p class="form-note" style="margin-top:14px">We only use your details to contact you about Prabhaav.</p>
+        <p class="form-note" style="margin-top:14px">We only use your details to contact you about Prabhaav. By signing up you agree to our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms</a>.</p>
       </div>
     </div>
   </section>
@@ -380,7 +514,12 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
   <div class="wrap">
     <a class="brand" href="#top" style="font-size:1.05rem">Prabhaav</a>
     <span>Influence, made to fit. · © 2026 Prabhaav · Pune, India</span>
-    <span class="mono">prabhaav.co</span>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="#faq">FAQ</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms</a>
+      <a class="mono" href="https://www.instagram.com/prabhaav.co/" target="_blank" rel="noopener">Instagram @prabhaav.co</a>
+    </nav>
   </div>
 </footer>
 
@@ -436,7 +575,7 @@ Object.values(forms).forEach(form => {
       status.classList.add('err');
     }finally{
       btn.disabled = false;
-      btn.textContent = form.dataset.type === 'brand' ? 'Request early access' : 'Join the waitlist';
+      btn.textContent = form.dataset.type === 'brand' ? 'Get my creator shortlist' : 'Join the waitlist';
     }
   });
 });
